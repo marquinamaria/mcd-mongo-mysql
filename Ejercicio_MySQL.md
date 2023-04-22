@@ -39,7 +39,7 @@ select a.city_id, c.city, count(1) as store_count
 from sakila.store s 
     join sakila.address a on s.address_id = a.address_id 
     join sakila.city c on a.city_id = c.city_id 
-group by a.city_id, c.city
+group by a.city_id, c.city;
 ```
 
 2. Listar la cantidad de películas que se hicieron por lenguaje.
@@ -63,7 +63,7 @@ Respuesta:
 select l.language_id, l.name, count(f.film_id) as film_count
 from `language` l 
     left join film f on f.language_id = l.language_id 
-group by l.language_id, l.name
+group by l.language_id, l.name;
 ```
 
 3.  Seleccionar todos los actores que participaron mas de 35 peliculas.
@@ -91,7 +91,7 @@ from actor a
 	join film_actor fa on a.actor_id = fa.actor_id 
 	join film f on f.film_id = fa.film_id 
 group by a.actor_id, a.first_name, a.last_name
-having film_count > 35
+having film_count > 35;
 
 ```
 
@@ -126,7 +126,7 @@ from actor a
 where c.name = 'Comedy'
 group by a.actor_id, a.first_name, a.last_name
 order by comedy_film_count desc
-limit 10
+limit 10;
 ```
 
 5. Obtener la lista de actores que NO han participado en ninguna película de categoría "Comedy":
