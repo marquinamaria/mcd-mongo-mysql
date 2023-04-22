@@ -35,7 +35,7 @@ Salida:
 
 Respuesta:
 ```sql
-select a.city_id, c.city, count(1)
+select a.city_id, c.city, count(1) as store_count
 from sakila.store s 
     join sakila.address a on s.address_id = a.address_id 
     join sakila.city c on a.city_id = c.city_id 
