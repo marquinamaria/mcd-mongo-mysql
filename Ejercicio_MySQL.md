@@ -152,9 +152,20 @@ Salida:
 ```
 Respuesta:
 ```sql
--- Su respuesta aqui:
-
-SELECT ...
-
+select distinct a.actor_id, a.first_name, a.last_name
+from actor a
+	join film_actor fa on a.actor_id = fa.actor_id 
+	join film f on f.film_id = fa.film_id 
+	join film_category fc  on fc.film_id = f.film_id 
+	join category c on c.category_id = fc.category_id 
+where (a.actor_id, a.first_name, a.last_name) not in (
+	select distinct a.actor_id, a.first_name, a.last_name
+	from actor a
+		join film_actor fa on a.actor_id = fa.actor_id 
+		join film f on f.film_id = fa.film_id 
+		join film_category fc  on fc.film_id = f.film_id 
+		join category c on c.category_id = fc.category_id 
+	where c.name = 'Comedy'
+);
 ```
 
