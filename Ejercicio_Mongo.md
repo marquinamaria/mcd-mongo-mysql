@@ -188,6 +188,8 @@ Resultado:
 
 
 Respuesta:
+
+```
 db.film.aggregate([
    {
       $lookup:
