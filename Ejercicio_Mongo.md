@@ -135,26 +135,28 @@ Respuesta:
 
 ```
 db.film.aggregate([
-   { $lookup:
-      {
-        from: "film_actor",
-        localField: "_id",
-        foreignField: "film_id",
-        as: "film_actor_info"
-      }
+   {
+      $lookup:
+         {
+           from: "film_actor",
+           localField: "_id",
+           foreignField: "film_id",
+           as: "actors"
+         }
    },
-   { $unwind: "$film_actor_info" },
+   { $unwind: "$actors"},
    {
       $lookup:
          {
            from: "actor",
-           localField: "film_actor_info.actor_id",
+           localField: "actors.actor_id",
            foreignField: "_id",
            as: "actor"
          }
    },
    { $unwind: "$actor" },
    { $group: { _id: "$actor", film_count: { $sum: 1 } } },
+   { $match: { film_count: { $gt: 35 } } },
    {
       $project: {
           _id: 0,
@@ -163,7 +165,6 @@ db.film.aggregate([
          film_count: 1
       }
    },
-   { $match: { film_count: { $gt: 35 } } },
    // { $sort : { film_count : -1 } }
 ])
 ```
