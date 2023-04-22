@@ -167,5 +167,5 @@ Resultado:
 
 Respuesta:
 ```
-db.film_actor.aggregate(...
+db.film.aggregate([ { $lookup: { from: "film_category", localField: "_id", foreignField: "film_id", as: "film_category" } }, { $unwind: "$film_category" }, { $lookup: { from: "category", localField: "id", foreignField: "film_id", as: "category" } }])
 ```
