@@ -97,7 +97,10 @@ db.film.aggregate([
       _id: "$language_info.name", 
       count: { $sum: 1 } 
     } 
-  }]).sort({ count: -1 })
+  },
+  { $sort : { count : -1 } }
+])
+// .sort({ count: -1 })
 ```
 
 2. Seleccionar todos los actores que participaron mas de 35 peliculas. (Ver: match, group, lookup, project)
