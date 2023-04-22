@@ -141,8 +141,27 @@ db.film.aggregate([
       }
    },
    { $unwind: "$film_actor_info" },
-   { $group: { _id: "$film_actor_info.actor_id", count: { $sum: 1 } } },
-   { $match: { count: { $gt: 35 } } }
+   {
+      $lookup:
+         {
+           from: "actor",
+           localField: "film_actor_info.actor_id",
+           foreignField: "_id",
+           as: "actor"
+         }
+   },
+   { $unwind: "$actor" },
+   { $group: { _id: "$actor", film_count: { $sum: 1 } } },
+   {
+      $project: {
+          _id: 0,
+          'first_name': '$_id.first_name', 
+          'last_name': '$_id.last_name', 
+         film_count: 1
+      }
+   },
+   { $match: { film_count: { $gt: 35 } } },
+   // { $sort : { film_count : -1 } }
 ])
 ```
 
