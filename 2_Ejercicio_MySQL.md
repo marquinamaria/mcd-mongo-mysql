@@ -59,10 +59,10 @@ Salida:
 
 Respuesta:
 ```sql
-select l.language_id, l.name, count(f.film_id) as film_count
-from `language` l 
-    left join film f on f.language_id = l.language_id 
-group by l.language_id, l.name
+-- Su respuesta aqui:
+
+SELECT ...
+
 ```
 
 3.  Seleccionar todos los actores que participaron mas de 35 peliculas.
