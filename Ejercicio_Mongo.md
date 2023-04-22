@@ -166,7 +166,6 @@ Resultado:
 
 
 Respuesta:
-```
 db.film.aggregate([
    {
       $lookup:
@@ -207,10 +206,7 @@ db.film.aggregate([
            as: "actors"
          }
    },
-   {
-      $unwind: "$actors"
-   },
-   // { $group: { _id: "$actors.actor_id", comedy_film_count: { $sum: 1 } } },
+   { $unwind: "$actors"},
    {
       $lookup:
          {
@@ -220,46 +216,22 @@ db.film.aggregate([
            as: "actor"
          }
    },
-   {
-      $unwind: "$actor"
-   },
+   { $unwind: "$actor" },
    { 
     $group: { 
       _id: "$actor",
       comedy_film_count: { $sum: 1 } 
     } 
   },
-//     {
-//      $project:
-//         {
-//           _id: 0,
-//           "_id.first_name": 1,
-//           "_id.last_name": 1,
-//           "comedy_film_count": 1
-//         }
-//   },
+  {
+      $project: {
+          _id: 0,
+          'first_name': '$_id.first_name', 
+          'last_name': '$_id.last_name', 
+         comedy_film_count: 1
+      }
+  },
   { $sort : { comedy_film_count : -1 } },
-  { $limit : 10 }
-//  {
-//      $lookup:
-//         {
-//           from: "actor",
-//           localField: "_id",
-//           foreignField: "_id",
-//           as: "actor"
-//         }
-//   },
-//   {
-//      $unwind: "$actor"
-//   },
-//   {
-//      $project:
-//         {
-//           _id: 0,
-//           "actor.first_name": 1,
-//           "actor.last_name": 1,
-//           "comedy_film_count": 1
-//         }
-//   }
+  { $limit : 10 },
 ])
 ```
