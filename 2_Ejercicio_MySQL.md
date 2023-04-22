@@ -59,10 +59,10 @@ Salida:
 
 Respuesta:
 ```sql
--- Su respuesta aqui:
-
-SELECT ...
-
+select l.language_id, l.name, count(f.film_id) as film_count
+from `language` l 
+    left join film f on f.language_id = l.language_id 
+group by l.language_id, l.name
 ```
 
 3.  Seleccionar todos los actores que participaron mas de 35 peliculas.
