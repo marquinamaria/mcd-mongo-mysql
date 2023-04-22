@@ -80,7 +80,24 @@ Resultado:
 
 Respuesta:
 ```
-db.film.aggregate({"$group": {_id: "$language_id", count: {$sum:1}}}).sort({count:-1})
+db.film.aggregate([ 
+  { $lookup: 
+    { 
+      from: "language", 
+      localField: "language_id", 
+      foreignField: "_id", 
+      as: "language_info" 
+    } 
+  }, 
+  { 
+    $unwind: "$language_info" 
+  }, 
+  { 
+    $group: { 
+      _id: "$language_info.name", 
+      count: { $sum: 1 } 
+    } 
+  }]).sort({ count: -1 })
 ```
 
 2. Seleccionar todos los actores que participaron mas de 35 peliculas. (Ver: match, group, lookup, project)
